@@ -1,4 +1,4 @@
-# Melascan Mobile Application
+# MelaScan Mobile Application
 
 # Team Members:
 - Alper Şahin
