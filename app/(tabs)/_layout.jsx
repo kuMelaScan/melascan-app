@@ -10,9 +10,9 @@ const TabIcon = ({icon, color, focused, name}) => {
                 source={icon}
                 resizeMode="contain"
                 tintColor={color}
-                className={`w-6 h-6 ${focused ? "tint-blue-500" : "tint-gray-500"}`}
+                className={`w-6 h-6 ${focused ? "#369EFF" : "gray-500"}`}
             />
-            <Text className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
+            <Text className={`${focused ? "font-msemibold" : "font-mregular"} text-xs`}
                             style={{color: color}}
             >
                 {name}
@@ -32,7 +32,7 @@ const TabsLayout = () => {
             tabBarInactiveTintColor: "gray",
             tabBarStyle: [
                 {
-                    backgroundColor: "white",
+                    backgroundColor: '#FFFFFF',
                     borderTopWidth: 1,
                     borderTopColor: "transparent",
                     height: 90,
@@ -59,17 +59,17 @@ const TabsLayout = () => {
                 }
             />
             <Tabs.Screen
-                name="upload"
+                name="scan"
                 options={
                     {
-                        title: "Upload",
+                        title: "Scan",
                         headerShown: false,
                         tabBarIcon: ({color, focused}) => (
                             <TabIcon
-                                icon={icons.upload}
+                                icon={icons.scan}
                                 color={color}
                                 focused={focused}
-                                name="Upload"
+                                name="Scan"
                             />
                         )
                     }

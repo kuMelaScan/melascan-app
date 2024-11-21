@@ -5,31 +5,27 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#161622",
+        primary: "#FFFFFF",
         secondary: {
-          DEFAULT: "#FF9C01",
-          100: "#FF9001",
-          200: "#FF8E01",
+          DEFAULT: "#369EFF",
+          100: "#ACD1E5",
         },
         black: {
           DEFAULT: "#000",
-          100: "#1E1E2D",
-          200: "#232533",
+          100: "#141414",
         },
         gray: {
-          100: "#CDCDE0",
+          100: "#E8EDF2",
         },
       },
       fontFamily: {
-        pthin: ["Poppins-Thin", "sans-serif"],
-        pextralight: ["Poppins-ExtraLight", "sans-serif"],
-        plight: ["Poppins-Light", "sans-serif"],
-        pregular: ["Poppins-Regular", "sans-serif"],
-        pmedium: ["Poppins-Medium", "sans-serif"],
-        psemibold: ["Poppins-SemiBold", "sans-serif"],
-        pbold: ["Poppins-Bold", "sans-serif"],
-        pextrabold: ["Poppins-ExtraBold", "sans-serif"],
-        pblack: ["Poppins-Black", "sans-serif"],
+        mregular: ["Manrope-Regular", "sans-serif"],
+        mbold: ["Manrope-Bold", "sans-serif"],
+        msemibold: ["Manrope-SemiBold", "sans-serif"],
+        mmedium: ["Manrope-Medium", "sans-serif"],
+        mextrabold: ["Manrope-ExtraBold", "sans-serif"],
+        mextralight: ["Manrope-ExtraLight", "sans-serif"],
+        mlight: ["Manrope-Light", "sans-serif"],
       },
     },
   },

@@ -1,11 +1,16 @@
-import { View, Text}  from "react-native";
-import React from "react";
+import {Stack} from "expo-router";
+import {StatusBar} from "expo-status-bar";
 
 const AuthLayout = () => {
     return (
-        <View className={"flex-1 items-center justify-center bg-white"}>
-            <Text className={"text-3xl font-pblack"}>MelaScan</Text>
-        </View>
+        <>
+            <StatusBar backgroundColor='#FFFFFF' style="dark"/>
+            <Stack>
+                <Stack.Screen name="login" options={{headerShown: false}}/>
+                <Stack.Screen name="signup" options={{headerShown: false}}/>
+            </Stack>
+        </>
+
     )
 }
 

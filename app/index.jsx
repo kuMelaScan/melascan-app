@@ -1,36 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import {Image, ScrollView, Text, View} from 'react-native';
-import {SafeAreaView} from "react-native-safe-area-context";
+import {useEffect} from "react";
+import { View, Text, StatusBar, ActivityIndicator, Image } from "react-native";
 import {images} from "../constants";
-import CustomButton from "../components/CustomButton";
-import {router} from "expo-router";
+import { router } from "expo-router";
 
+const App = () => {
 
-export default function App() {
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            router.push("/first");
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [router]);
+
     return (
-        <SafeAreaView className={"bg-blue-500 h-full"}>
-            <ScrollView contentContainerStyle={{height: "100%"}}>
-                <View className={"w-full justify-center items-center h-full" +
-                    "px-4 min-h-[85vh]"}>
-                    <Image
-                        source={images.logo}
-                        className={"w-[130px] h-[84px]"}
-                        resizeMode={"contain"}
-                    />
-                    <View className={"relative mt-5"}>
-                        <Text className={"text-3xl font-bold text-white-white text-center"}>
-                            Welcome to MelaScan!
-                        </Text>
-                    </View>
-                    <CustomButton
-                        title="Get Started"
-                        handlePress={() => router.push("/home")}
-                        containerStyles={"w-full mt-7"}
-                    />
-                </View>
-            </ScrollView>
-            <StatusBar backgroundColor='#161622' style="light" />
-        </SafeAreaView>
-    );
-}
+        <View className="flex-1 justify-center items-center bg-white">
+            <StatusBar backgroundColor="#0000FF" barStyle="light-content" />
 
+            <Image
+                source={images.squareLogo}
+                className="w-36 h-36 mb-5"
+            />
+
+            <Text className="text-lg text-black mb-2">Loading...</Text>
+
+            <ActivityIndicator size="large" color="#000" />
+        </View>
+    );
+};
+
+export default App;
