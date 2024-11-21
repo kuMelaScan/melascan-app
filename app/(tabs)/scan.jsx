@@ -24,7 +24,7 @@ const Scan = () => {
 
             {/* Buttons */}
             <View className="items-center">
-                <CustomButton title="Take a Photo" handlePress={() => {}} containerStyles={"w-[90%] py-4 bg-secondary my-5"} />
+                <CustomButton title="Take a Photo" handlePress={() => {}} containerStyles={"w-[90%] py-4 bg-secondary my-5"} textStyles={"text-primary"}/>
                 <CustomButton title="Upload from Gallery" handlePress={() => {}} containerStyles={"w-[90%] py-4 bg-gray-200"} textStyles={"text-black-100"} />
             </View>
         </SafeAreaView>

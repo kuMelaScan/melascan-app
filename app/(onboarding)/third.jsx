@@ -38,6 +38,7 @@ export default function Second() {
                         title="Continue with Email"
                         handlePress={() => router.push("/login")}
                         containerStyles={"w-[90%] bg-secondary"}
+                        textStyles={"text-primary"}
                     />
                 </View>
 

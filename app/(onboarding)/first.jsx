@@ -32,6 +32,7 @@ export default function First() {
                         title="Next"
                         handlePress={() => router.push("/second")}
                         containerStyles={"w-[90%] bg-secondary"}
+                        textStyles={"text-primary"}
                     />
                 </View>
 

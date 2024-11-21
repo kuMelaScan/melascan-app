@@ -53,7 +53,8 @@ const Profile = () => {
             <CustomButton
                 title="Log Out"
                 handlePress={() => {router.push("/login")}}
-                containerStyles={"bg-red-500 py-3 rounded-lg mt-6 w-[75%]"}
+                containerStyles={"bg-red-500 py-3 mt-6 w-[75%]"}
+                textStyles={"text-primary"}
             />
         </View>
     </SafeAreaView>

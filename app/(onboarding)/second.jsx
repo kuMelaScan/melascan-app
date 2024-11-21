@@ -39,6 +39,7 @@ export default function Second() {
                         title="Next"
                         handlePress={() => router.push("/third")}
                         containerStyles={"w-[90%] bg-secondary"}
+                        textStyles={"text-primary"}
                     />
                 </View>
             </ScrollView>

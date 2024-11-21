@@ -10,7 +10,7 @@ const CustomButton = ({ title, handlePress, containerStyles, textStyles, isLoadi
             className={`${containerStyles} rounded-2xl h-[50px] justify-center items-center  ${isLoading ? "opacity-50" : ""}`}
             disabled={isLoading}
         >
-            <Text className={`text-white font-msemibold text-lg ${textStyles}`}>
+            <Text className={`font-msemibold text-lg ${textStyles}`}>
                 {title}
             </Text>
         </TouchableOpacity>

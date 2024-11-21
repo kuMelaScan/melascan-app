@@ -87,7 +87,12 @@ const SignUp = () => {
                 </View>
 
                 <View className="items-center">
-                    <CustomButton title="Sign Up" handlePress={() => {router.push("/login")}} containerStyles={"w-[90%] my-3 bg-secondary"} />
+                    <CustomButton
+                        title="Sign Up"
+                        handlePress={() => {router.push("/login")}}
+                        containerStyles={"w-[90%] my-3 bg-secondary"}
+                        textStyles={"text-primary"}
+                    />
                 </View>
             </View>
         </SafeAreaView>

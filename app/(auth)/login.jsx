@@ -31,13 +31,14 @@ const Login = () => {
                 <CustomButton
                     title="Log in"
                     handlePress={() => router.push("/home")}
-                    containerStyles={"w-[48%] bg-gray-100 text-black"}
-                    textStyles={"text-black"}
+                    containerStyles={"w-[48%] bg-gray-100"}
+                    textStyles={"text-black-100"}
                 />
                 <CustomButton
                     title="Sign Up"
                     handlePress={() => router.push("/signup")}
                     containerStyles={"w-[48%] bg-secondary"}
+                    textStyles={"text-primary"}
                 />
             </View>
         </SafeAreaView>
