@@ -60,7 +60,6 @@ const SignUp = () => {
                 Alert.alert("Error", errorData.message || "Signup failed.");
             }
         } catch (err) {
-            console.error(err);
             Alert.alert("Error", "An error occurred while signing up. Please try again.");
         }
     };

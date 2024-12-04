@@ -23,7 +23,7 @@ const Login = () => {
         };
 
         try {
-            const response = await fetch("http://localhost:8080/auth/login", {
+            const response = await fetch("http://172.21.178.55:8080/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -48,7 +48,6 @@ const Login = () => {
                 Alert.alert("Error", errorData.message || "Login failed.");
             }
         } catch (err) {
-            console.error(err);
             Alert.alert("Error", "An error occurred while logging in. Please try again.");
         }
     };

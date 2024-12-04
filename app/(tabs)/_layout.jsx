@@ -12,7 +12,7 @@ const TabIcon = ({icon, color, focused, name}) => {
                 tintColor={color}
                 className={`w-6 h-6 ${focused ? "#369EFF" : "gray-500"}`}
             />
-            <Text className={`${focused ? "font-msemibold" : "font-mregular"} text-xs`}
+            <Text className={`${focused ? "font-msemibold" : "font-mlight"} text-xs`}
                             style={{color: color}}
             >
                 {name}
