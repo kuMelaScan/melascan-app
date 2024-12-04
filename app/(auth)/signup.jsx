@@ -1,12 +1,69 @@
-import {View, Text, TextInput, TouchableOpacity} from "react-native";
-import {useState} from "react";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../components/CustomButton";
-import {router} from "expo-router";
-import {Ionicons} from "@expo/vector-icons";
+import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+
+
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [name, setName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    const validateInputs = () => {
+        if (!name || !lastName || !dateOfBirth || !email || !password || !confirmPassword) {
+            Alert.alert("Error", "All fields are required.");
+            return false;
+        }
+        if (password !== confirmPassword) {
+            Alert.alert("Error", "Passwords do not match.");
+            return false;
+        }
+        if (password.length < 8) {
+            Alert.alert("Error", "Password must be at least 8 characters long.");
+            return false;
+        }
+        return true;
+    };
+
+    const handleSignUp = async () => {
+        if (!validateInputs()) return;
+
+        const payload = {
+            firstName: name,
+            lastName,
+            dateOfBirth,
+            email,
+            password,
+        };
+
+        try {
+            const response = await fetch("http://localhost:8080/auth/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                Alert.alert("Success", "User registered successfully!");
+                router.push("/login");
+            } else {
+                const errorData = await response.json();
+                Alert.alert("Error", errorData.message || "Signup failed.");
+            }
+        } catch (err) {
+            console.error(err);
+            Alert.alert("Error", "An error occurred while signing up. Please try again.");
+        }
+    };
 
     return (
         <SafeAreaView className="bg-white flex-1 px-6">
@@ -19,6 +76,8 @@ const SignUp = () => {
                         <TextInput
                             placeholder="John"
                             className="border border-gray-300 rounded-lg py-3 px-4 text-base mb-6"
+                            value={name}
+                            onChangeText={setName}
                         />
                     </View>
 
@@ -27,6 +86,8 @@ const SignUp = () => {
                         <TextInput
                             placeholder="Doe"
                             className="border border-gray-300 rounded-lg py-3 px-4 text-base mb-6"
+                            value={lastName}
+                            onChangeText={setLastName}
                         />
                     </View>
 
@@ -36,6 +97,8 @@ const SignUp = () => {
                             placeholder="DD.MM.YYYY"
                             className="border border-gray-300 rounded-lg py-3 px-4 text-base mb-6"
                             keyboardType="numeric"
+                            value={dateOfBirth}
+                            onChangeText={setDateOfBirth}
                         />
                     </View>
 
@@ -46,6 +109,8 @@ const SignUp = () => {
                             className="border border-gray-300 rounded-lg py-3 px-4 text-base mb-6"
                             keyboardType="email-address"
                             autoCapitalize="none"
+                            value={email}
+                            onChangeText={setEmail}
                         />
                     </View>
 
@@ -56,6 +121,8 @@ const SignUp = () => {
                                 placeholder="********"
                                 className="flex-1 text-base"
                                 secureTextEntry={!showPassword}
+                                value={password}
+                                onChangeText={setPassword}
                             />
                             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
                                 <Ionicons
@@ -74,6 +141,8 @@ const SignUp = () => {
                                 placeholder="********"
                                 className="flex-1 text-base"
                                 secureTextEntry={!showConfirmPassword}
+                                value={confirmPassword}
+                                onChangeText={setConfirmPassword}
                             />
                             <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
                                 <Ionicons
@@ -89,7 +158,7 @@ const SignUp = () => {
                 <View className="items-center">
                     <CustomButton
                         title="Sign Up"
-                        handlePress={() => {router.push("/login")}}
+                        handlePress={handleSignUp}
                         containerStyles={"w-[90%] my-3 bg-secondary"}
                         textStyles={"text-primary"}
                     />
@@ -97,6 +166,6 @@ const SignUp = () => {
             </View>
         </SafeAreaView>
     );
-}
+};
 
 export default SignUp;
