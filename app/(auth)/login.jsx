@@ -33,10 +33,13 @@ const Login = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                const { token } = data; // Assume the token is returned in the response
+                const { token, userId } = data; // Assume the token is returned in the response
 
                 // Save token securely
-                await AsyncStorage.setItem("authToken", token);
+                await AsyncStorage.multiSet([
+                    ["userId", userId],
+                    ["authToken", token],
+                ]);
 
                 Alert.alert("Success", "Login successful!");
                 router.push("/home"); // Navigate to home page

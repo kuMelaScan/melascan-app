@@ -1,10 +1,25 @@
 import {View, Text, TouchableOpacity} from "react-native";
-import React from "react";
+import React, {useEffect} from "react";
 import {SafeAreaView} from "react-native-safe-area-context";
 import CustomButton from "../../components/CustomButton";
 import {router} from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Scan = () => {
+
+    const fetchUserData = async () => {
+        try {
+            const userId = await AsyncStorage.getItem("userId");
+            const token = await AsyncStorage.getItem("authToken");
+        } catch (err) {
+            console.error("Failed to fetch user data:", err);
+        }
+    };
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
+
     return (
         <SafeAreaView className="bg-white flex-1 px-6">
             {/* Header */}
