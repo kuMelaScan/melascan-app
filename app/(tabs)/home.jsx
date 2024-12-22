@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useIsFocused } from "@react-navigation/native";
 import { fetchScans, getScanResult } from "../../lib/requests";
 
-// Extract `RenderScanItem` into its own component
 const RenderScanItem = ({ item, index }) => {
     const [scanResult, setScanResult] = useState(null);
 
@@ -33,7 +32,7 @@ const RenderScanItem = ({ item, index }) => {
             <View className="flex-1 ml-4">
                 <Text className="text-base font-medium text-black">Scan {index + 1}</Text>
                 <Text className="text-sm font-medium text-gray-500">
-                    Result: {scanResult ? `${scanResult.label} (${scanResult.confidence}%)` : "Loading..."}
+                    Result: {scanResult ? `${scanResult.label} (${(scanResult.confidence * 100).toFixed(2)}%)` : "Loading..."}
                 </Text>
             </View>
             <TouchableOpacity
