@@ -17,7 +17,7 @@ export default function First() {
                         className={"mb-5"}
                         resizeMode="contain"
                     />
-                    <Text className="text-3xl font-mbold text-black mb-2 py-2">
+                    <Text className="text-2xl font-mbold text-black mb-2 py-2">
                         Take photos of your skin
                     </Text>
                     <Text className="text-xl font-mregular text-black-100 mb-6 px-6">

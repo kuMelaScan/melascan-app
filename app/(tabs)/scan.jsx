@@ -1,71 +1,10 @@
-import React, { useEffect, useState } from "react";
 import { View, Text, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../components/CustomButton";
 import * as ImagePicker from "expo-image-picker";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+import {uploadPhotoToS3} from "../../lib/requests";
 
 const Scan = () => {
-  const [userId, setUserId] = useState(null);
-  const [authToken, setAuthToken] = useState(null);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const storedUserId = await AsyncStorage.getItem("userId");
-        const storedToken = await AsyncStorage.getItem("authToken");
-        if (storedUserId && storedToken) {
-          setUserId(storedUserId);
-          setAuthToken(storedToken);
-        } else {
-        }
-      } catch (err) {
-        Alert.alert("Error", "Failed to fetch user data.");
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  // Function to handle uploading a photo to AWS S3
-  const uploadPhotoToS3 = async (uri) => {
-    if (!userId || !authToken) {
-      Alert.alert("Error", "User ID or authentication token not found.");
-      return;
-    }
-
-    try {
-      const formData = new FormData();
-      const fileName = uri.split("/").pop();
-      const fileType = fileName.split(".").pop();
-
-      formData.append("userId", userId);
-      formData.append("image", {
-        uri,
-        name: fileName,
-        type: `image/${fileType}`,
-      });
-
-      console.log("Form Data: ", formData);
-
-      const response = await axios.post("http://172.21.178.55:8080/images", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${authToken}`, // Add Bearer token
-        },
-      });
-
-      if (response.status === 200) {
-        Alert.alert("Success", response.data);
-      } else {
-        Alert.alert("Upload Failed", "Please try again later.");
-      }
-    } catch (error) {
-      console.log("Axios Error: ", error);
-      Alert.alert("Upload Error", "An error occurred while uploading the photo.");
-    }
-  };
 
   // Function to open the camera
   const handleTakePhoto = async () => {
@@ -83,7 +22,7 @@ const Scan = () => {
     });
 
     if (!result.canceled) {
-      uploadPhotoToS3(result.assets[0].uri);
+      await uploadPhotoToS3(result.assets[0].uri);
     } else {
       Alert.alert("Action Cancelled", "No photo was taken.");
     }
@@ -105,7 +44,7 @@ const Scan = () => {
     });
 
     if (!result.canceled) {
-      uploadPhotoToS3(result.assets[0].uri);
+      await uploadPhotoToS3(result.assets[0].uri);
     } else {
       Alert.alert("Action Cancelled", "No photo was selected.");
     }

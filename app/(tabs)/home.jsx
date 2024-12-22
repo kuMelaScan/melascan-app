@@ -1,70 +1,69 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, FlatList, Image, Alert } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import { useIsFocused } from "@react-navigation/native";
+import { fetchScans, getScanResult } from "../../lib/requests";
 
-const Home = () => {
-    const [scans, setScans] = useState([]);
-    const isFocused = useIsFocused();
-    const fetchScans = async () => {
-        try {
-            const userId = await AsyncStorage.getItem("userId");
-            const authToken = await AsyncStorage.getItem("authToken");
+// Extract `RenderScanItem` into its own component
+const RenderScanItem = ({ item, index }) => {
+    const [scanResult, setScanResult] = useState(null);
 
-            if (!userId || !authToken) {
-                Alert.alert("Error", "User ID or authentication token is missing.");
-                return;
-            }
-
-            const response = await axios.get(`http://172.21.178.55:8080/images/list/${userId}`, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`,
-                },
-            });
-
-            if (response.status === 200) {
-                setScans(response.data); // Assuming the response contains a list of ImageMetadata
-            } else {
-                throw new Error("Failed to fetch scans.");
-            }
-        } catch (error) {
-            Alert.alert("Error", "Failed to fetch scans.");
-            console.error(error);
-        }
-    };
     useEffect(() => {
-        if (isFocused) {
-            fetchScans();
-        }
-    }, [isFocused]);
+        const fetchResult = async () => {
+            try {
 
-    // Render a single scan item
-    const renderScanItem = ({ item, index }) => (
+
+                const result = await getScanResult(item);
+                setScanResult(result);
+            } catch (error) {
+                setScanResult({ label: "Error", confidence: "N/A" });
+            }
+        };
+
+        fetchResult();
+    }, [item]);
+
+    return (
         <View className="flex-row items-center justify-between mb-4">
             <Image
-                source={{ uri: item.imageUrl }} // Presigned URL from backend
+                source={{ uri: item.imageUrl }}
                 style={{ width: 64, height: 64, borderRadius: 8 }}
                 resizeMode="cover"
             />
             <View className="flex-1 ml-4">
-                <Text className="text-base font-mmedium text-black">Scan {index + 1}</Text>
-                <Text className="text-sm font-mmedium text-gray-500">
-                    Last Modified: {new Date(item.lastModified).toLocaleDateString()}
-                </Text>
-                <Text className="text-sm font-mmedium text-gray-500">
-                    Size: {(item.size / 1024).toFixed(2)} KB
+                <Text className="text-base font-medium text-black">Scan {index + 1}</Text>
+                <Text className="text-sm font-medium text-gray-500">
+                    Result: {scanResult ? `${scanResult.label} (${scanResult.confidence}%)` : "Loading..."}
                 </Text>
             </View>
             <TouchableOpacity
-                onPress={() => Alert.alert("Details", `Image URL: ${item.imageUrl}`)}
+                onPress={() => console.log(item.imageUrl)}
                 className="bg-gray-200 py-2 px-4 rounded-lg"
             >
-                <Text className="text-sm font-mmedium text-black">View Details</Text>
+                <Text className="text-sm font-medium text-black">View Details</Text>
             </TouchableOpacity>
         </View>
     );
+};
+
+const Home = () => {
+    const [scans, setScans] = useState([]);
+    const isFocused = useIsFocused();
+
+    const getScans = async () => {
+        try {
+            const fetchedScans = await fetchScans();
+            setScans(fetchedScans);
+        } catch (error) {
+            console.error("Error fetching scans:", error.message);
+        }
+    };
+
+    useEffect(() => {
+        if (isFocused) {
+            getScans();
+        }
+    }, [isFocused]);
 
     return (
         <SafeAreaView className="bg-white flex-1 px-6">
@@ -75,7 +74,7 @@ const Home = () => {
             <FlatList
                 data={scans}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={renderScanItem}
+                renderItem={({ item, index }) => <RenderScanItem item={item} index={index} />}
                 contentContainerStyle={{ paddingBottom: 16 }}
                 ListEmptyComponent={
                     <Text className="text-base font-mregular text-gray-500 text-center">

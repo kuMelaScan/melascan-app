@@ -1,12 +1,28 @@
 import React from "react";
-import {View, Text, Image, TouchableOpacity} from "react-native";
+import {View, Text, Image, TouchableOpacity, Alert} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {Ionicons} from "@expo/vector-icons";
 import {images} from "../../constants";
 import CustomButton from "../../components/CustomButton";
 import {router} from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = () => {
+
+
+
+    const handleLogout = async () => {
+        try {
+            await AsyncStorage.removeItem("userId");
+            await AsyncStorage.removeItem("authToken");
+            await AsyncStorage.removeItem("scans");
+
+            router.replace("/login");
+        } catch (error) {
+            console.error("Error during logout:", error);
+            Alert.alert("Error", "Failed to log out. Please try again.");
+        }
+    };
 
     return (
     <SafeAreaView className="bg-white flex-1 px-6">
@@ -52,7 +68,7 @@ const Profile = () => {
         <View className="mb-6 items-center">
             <CustomButton
                 title="Log Out"
-                handlePress={() => {router.push("/login")}}
+                handlePress={() => {handleLogout()}}
                 containerStyles={"bg-red-500 py-3 mt-6 w-[75%]"}
                 textStyles={"text-primary"}
             />

@@ -1,10 +1,10 @@
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
-import { useState } from "react";
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, Alert, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../components/CustomButton";
-import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-
+import DateTimePicker from "react-native-modal-datetime-picker";
+import {signUp} from "../../lib/requests";
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +15,8 @@ const SignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     const validateInputs = () => {
         if (!name || !lastName || !dateOfBirth || !email || !password || !confirmPassword) {
@@ -43,25 +45,12 @@ const SignUp = () => {
             password,
         };
 
-        try {
-            const response = await fetch("http://localhost:8080/auth/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-            });
+        await signUp(payload);
+    };
 
-            if (response.ok) {
-                Alert.alert("Success", "User registered successfully!");
-                router.push("/login");
-            } else {
-                const errorData = await response.json();
-                Alert.alert("Error", errorData.message || "Signup failed.");
-            }
-        } catch (err) {
-            Alert.alert("Error", "An error occurred while signing up. Please try again.");
-        }
+    const handleConfirm = (date) => {
+        setDateOfBirth(date.toISOString().split("T")[0]); // Format: YYYY-MM-DD
+        setDatePickerVisibility(false);
     };
 
     return (
@@ -74,7 +63,7 @@ const SignUp = () => {
                         <Text className="text-lg font-mmedium text-black-100 mb-3">Name</Text>
                         <TextInput
                             placeholder="John"
-                            className="border border-gray-300 rounded-lg py-3 px-4 text-base mb-6"
+                            className="border border-gray-300 rounded-lg py-3 px-4 text-left mb-6"
                             value={name}
                             onChangeText={setName}
                         />
@@ -84,7 +73,7 @@ const SignUp = () => {
                         <Text className="text-lg font-mmedium text-black-100 mb-3">Last Name</Text>
                         <TextInput
                             placeholder="Doe"
-                            className="border border-gray-300 rounded-lg py-3 px-4 text-base mb-6"
+                            className="border border-gray-300 rounded-lg py-3 px-4 text-left mb-6"
                             value={lastName}
                             onChangeText={setLastName}
                         />
@@ -92,20 +81,29 @@ const SignUp = () => {
 
                     <View>
                         <Text className="text-lg font-mmedium text-black-100 mb-3">Date of Birth</Text>
-                        <TextInput
-                            placeholder="DD.MM.YYYY"
-                            className="border border-gray-300 rounded-lg py-3 px-4 text-base mb-6"
-                            keyboardType="numeric"
-                            value={dateOfBirth}
-                            onChangeText={setDateOfBirth}
+                        <TouchableOpacity
+                            onPress={() => setDatePickerVisibility(true)}
+                            className="border border-gray-300 rounded-lg py-3 px-4 mb-6"
+                        >
+                            <Text className={`text-base ${dateOfBirth ? "text-black" : "text-gray-300"}`}>
+                                {dateOfBirth || "YYYY-MM-DD"}
+                            </Text>
+                        </TouchableOpacity>
+                        <DateTimePicker
+                            isVisible={isDatePickerVisible}
+                            mode="date"
+                            onConfirm={handleConfirm}
+                            onCancel={() => setDatePickerVisibility(false)}
                         />
                     </View>
+
+
 
                     <View>
                         <Text className="text-lg font-mmedium text-black-100 mb-3">Email</Text>
                         <TextInput
                             placeholder="johndoe@example.com"
-                            className="border border-gray-300 rounded-lg py-3 px-4 text-base mb-6"
+                            className="border border-gray-300 rounded-lg py-3 px-4 text-left mb-6"
                             keyboardType="email-address"
                             autoCapitalize="none"
                             value={email}
@@ -118,7 +116,7 @@ const SignUp = () => {
                         <View className="flex-row items-center border border-gray-300 rounded-lg py-3 px-4 mb-6">
                             <TextInput
                                 placeholder="********"
-                                className="flex-1 text-base"
+                                className="flex-1 text-left"
                                 secureTextEntry={!showPassword}
                                 value={password}
                                 onChangeText={setPassword}
@@ -138,7 +136,7 @@ const SignUp = () => {
                         <View className="flex-row items-center border border-gray-300 rounded-lg py-3 px-4 mb-6">
                             <TextInput
                                 placeholder="********"
-                                className="flex-1 text-base"
+                                className="flex-1 text-left"
                                 secureTextEntry={!showConfirmPassword}
                                 value={confirmPassword}
                                 onChangeText={setConfirmPassword}

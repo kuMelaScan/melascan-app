@@ -3,54 +3,26 @@ import { View, Text, TextInput, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../components/CustomButton";
 import { router } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {login} from "../../lib/requests";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    // Function to handle login
-    const handleLogin = async () => {
+    const handleLogin = () => async () => {
         // Validate inputs
         if (!email || !password) {
             Alert.alert("Error", "Please fill in all fields.");
-            return;
         }
+        else {
+            const payload = {
+                email,
+                password,
+            };
 
-        const payload = {
-            email,
-            password,
-        };
-
-        try {
-            const response = await fetch("http://172.21.178.55:8080/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                const { token, userId } = data; // Assume the token is returned in the response
-
-                // Save token securely
-                await AsyncStorage.multiSet([
-                    ["userId", userId],
-                    ["authToken", token],
-                ]);
-
-                Alert.alert("Success", "Login successful!");
-                router.push("/home"); // Navigate to home page
-            } else {
-                const errorData = await response.json();
-                Alert.alert("Error", errorData.message || "Login failed.");
-            }
-        } catch (err) {
-            Alert.alert("Error", "An error occurred while logging in. Please try again.");
+            await login(payload);
         }
-    };
+    }
 
     return (
         <SafeAreaView className="bg-white flex-1 px-6 py-5">
@@ -70,14 +42,14 @@ const Login = () => {
                     onChangeText={setEmail}
                     keyboardType="email-address"
                     autoCapitalize="none"
-                    className="bg-gray-100 py-4 px-4 rounded-xl text-lg font-mregular text-gray-800 mb-6"
+                    className="bg-gray-100 py-4 px-4 rounded-xl text-left text-lg font-mregular text-gray-800 mb-6"
                 />
                 <TextInput
                     placeholder="Password"
                     value={password}
                     onChangeText={setPassword}
                     secureTextEntry
-                    className="bg-gray-100 py-4 px-4 rounded-xl text-lg font-mregular text-gray-800"
+                    className="bg-gray-100 py-4 px-4 rounded-xl text-left text-lg font-mregular text-gray-800"
                 />
             </View>
 
@@ -85,7 +57,7 @@ const Login = () => {
             <View className="flex-row justify-between mt-6 space-x-4">
                 <CustomButton
                     title="Login"
-                    handlePress={handleLogin}
+                    handlePress={handleLogin(email, password)}
                     containerStyles={"w-full bg-secondary"}
                     textStyles={"text-primary"}
                 />
