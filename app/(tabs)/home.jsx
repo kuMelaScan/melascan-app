@@ -32,7 +32,11 @@ const RenderScanItem = ({ item, index }) => {
             <View className="flex-1 ml-4">
                 <Text className="text-base font-medium text-black">Scan {index + 1}</Text>
                 <Text className="text-sm font-medium text-gray-500">
-                    Result: {scanResult ? `${scanResult.label} (${(scanResult.confidence * 100).toFixed(2)}%)` : "Loading..."}
+                    Result: {scanResult ?
+                    `${scanResult.label} (${scanResult.label === "Benign"
+                        ? ((100 - scanResult.confidence * 100).toFixed(2))
+                        : (scanResult.confidence * 100).toFixed(2)}%)`
+                    : "Loading..."}
                 </Text>
             </View>
             <TouchableOpacity
