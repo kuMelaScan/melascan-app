@@ -36,7 +36,7 @@ export default function Second() {
                     </View>
                     <CustomButton
                         title="Continue with Email"
-                        handlePress={() => router.push("/login")}
+                        handlePress={() => router.replace("/login")}
                         containerStyles={"w-[90%] bg-secondary"}
                         textStyles={"text-primary"}
                     />

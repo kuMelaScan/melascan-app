@@ -45,6 +45,12 @@ const RenderScanItem = ({ item, index }) => {
             >
                 <Text className="text-sm font-medium text-black">View Details</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => console.log(item.imageUrl)}
+                className="bg-gray-200 py-2 px-4 rounded-lg"
+            >
+                <Text className="text-sm font-medium text-black">Evolution</Text>
+            </TouchableOpacity>
         </View>
     );
 };
