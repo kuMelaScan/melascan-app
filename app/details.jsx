@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, ActivityIndicator } from "react-native";
-import {getBorderCircularity, getGradcamResult, getSymmetry} from "../../lib/requests";
+import {getBorderCircularity, getGradcamResult, getSymmetry} from "../lib/requests";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 const Details = ({ route }) => {
     const { scan } = route.params;
@@ -30,29 +31,36 @@ const Details = ({ route }) => {
 
 
     return (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <SafeAreaView className="bg-white flex-1 px-6">
             {loading ? (
-                <ActivityIndicator size="large" color="#0000ff" />
+                <View className="flex-1 justify-center items-center">
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
             ) : gradcamUri && borderCircularity && symmetry ? (
-                <>
-                    <Text className="">
+                <View className="flex-1 items-center">
+                    <Text className="text-2xl font-mbold text-black mt-4 mb-6">
                         Grad-CAM Result
                     </Text>
                     <Image
-                        source={{ uri: gradcamUri }} // gradcamUri will be the Base64 string
-                        style={{ width: 300, height: 300, borderRadius: 8 }}
+                        source={{ uri: gradcamUri }}
+                        className="w-72 h-72 rounded-lg mb-6"
+                        resizeMode="contain"
                     />
-                    <Text className="">
-                        Border Circularity: {borderCircularity}
+                    <Text className="text-lg font-msemibold text-black mb-2">
+                        Border Circularity: <Text className="text-gray-600">{borderCircularity}</Text>
                     </Text>
-                    <Text className="">
-                        Symmetry: {symmetry}
+                    <Text className="text-lg font-msemibold text-black mb-2">
+                        Symmetry: <Text className="text-gray-600">{symmetry}</Text>
                     </Text>
-                </>
+                </View>
             ) : (
-                <Text>Unable to load details.</Text>
+                <View className="flex-1 justify-center items-center">
+                    <Text className="text-base font-mregular text-gray-500">
+                        Unable to load details.
+                    </Text>
+                </View>
             )}
-        </View>
+        </SafeAreaView>
     );
 };
 

@@ -97,17 +97,18 @@ const RootLayout = () => {
         <Stack.Navigator>
             {/* Tabs Navigator */}
             <Stack.Screen
-                name="Tabs"
+                name="(tabs)"
                 component={TabsLayout}
                 options={{ headerShown: false }}
             />
             {/* Details ekranı */}
             <Stack.Screen
-                name="Details"
-                getComponent={() => require("./details").default} // Lazy loading
+                name="details"
+                getComponent={() => require("../details").default} // Lazy loading
                 options={{
                     title: "Grad-CAM Result",
                     headerShown: false, // Gerekirse başlık ekleyebilirsin
+                    presentation: "modal",
                 }}
             />
         </Stack.Navigator>

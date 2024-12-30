@@ -40,7 +40,7 @@ const RenderScanItem = ({ item, index }) => {
                 </Text>
             </View>
             <TouchableOpacity
-                onPress={() => navigation.navigate("Details", { scan: item })}
+                onPress={() => navigation.navigate("details", { scan: item })}
                 className="bg-gray-200 py-2 px-4 rounded-lg"
             >
                 <Text className="text-sm font-medium text-black">View Details</Text>
