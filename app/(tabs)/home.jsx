@@ -3,15 +3,15 @@ import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useIsFocused } from "@react-navigation/native";
 import { fetchScans, getScanResult } from "../../lib/requests";
+import { useNavigation} from "expo-router";
 
 const RenderScanItem = ({ item, index }) => {
     const [scanResult, setScanResult] = useState(null);
+    const navigation = useNavigation(); // Navigation nesnesini kullan
 
     useEffect(() => {
         const fetchResult = async () => {
             try {
-
-
                 const result = await getScanResult(item);
                 setScanResult(result);
             } catch (error) {
@@ -32,19 +32,20 @@ const RenderScanItem = ({ item, index }) => {
             <View className="flex-1 ml-4">
                 <Text className="text-base font-medium text-black">Scan {index + 1}</Text>
                 <Text className="text-sm font-medium text-gray-500">
-                    Result: {scanResult ?
-                    `${scanResult.label} (${scanResult.label === "Benign"
+                    Result: {scanResult
+                    ? `${scanResult.label} (${scanResult.label === "Benign"
                         ? ((100 - scanResult.confidence * 100).toFixed(2))
                         : (scanResult.confidence * 100).toFixed(2)}%)`
                     : "Loading..."}
                 </Text>
             </View>
             <TouchableOpacity
-                onPress={() => console.log(item.imageUrl)}
+                onPress={() => navigation.navigate("Details", { scan: item })}
                 className="bg-gray-200 py-2 px-4 rounded-lg"
             >
                 <Text className="text-sm font-medium text-black">View Details</Text>
             </TouchableOpacity>
+
         </View>
     );
 };
