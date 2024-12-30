@@ -31,31 +31,45 @@ const Details = ({ route }) => {
 
 
     return (
-        <SafeAreaView className="bg-white flex-1 px-6">
+        <SafeAreaView className="bg-white flex-1 px-6 pt-5">
             {loading ? (
                 <View className="flex-1 justify-center items-center">
                     <ActivityIndicator size="large" color="#0000ff" />
                 </View>
             ) : gradcamUri && borderCircularity && symmetry ? (
-                <View className="flex-1 items-center">
-                    <Text className="text-2xl font-mbold text-black mt-4 mb-6">
-                        Grad-CAM Result
-                    </Text>
-                    <Image
-                        source={{ uri: gradcamUri }}
-                        className="w-72 h-72 rounded-lg mb-6"
-                        resizeMode="contain"
-                    />
-                    <Text className="text-lg font-msemibold text-black mb-2">
-                        Border Circularity: <Text className="text-gray-600">{borderCircularity}</Text>
-                    </Text>
-                    <Text className="text-lg font-msemibold text-black mb-2">
-                        Symmetry: <Text className="text-gray-600">{symmetry}</Text>
-                    </Text>
+                <View className="flex-1">
+                    <View className="mt-6 mb-6">
+                        <Text className="text-2xl font-bold text-black text-center mb-4">
+                            Grad-CAM Result
+                        </Text>
+                        <Image
+                            source={{ uri: gradcamUri }}
+                            className="w-72 h-72 rounded-xl self-center"
+                            resizeMode="contain"
+                        />
+                    </View>
+
+                    <View className="mb-6">
+                        <Text className="text-xl font-bold text-black mb-2">
+                            Border Circularity:
+                        </Text>
+                        <Text className="text-base text-gray-600 ml-4">
+                            {borderCircularity}
+                        </Text>
+                    </View>
+
+                    <View className="mb-6">
+                        <Text className="text-xl font-bold text-black mb-2">
+                            Symmetry:
+                        </Text>
+                        <Text className="text-base text-gray-600 ml-4">
+                            {symmetry}
+                        </Text>
+                    </View>
                 </View>
             ) : (
                 <View className="flex-1 justify-center items-center">
-                    <Text className="text-base font-mregular text-gray-500">
+                    <Text className="text-base font-regular text-gray-500">
                         Unable to load details.
                     </Text>
                 </View>
