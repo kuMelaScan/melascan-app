@@ -2,6 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Tabs } from "expo-router";
 import { Text, Image, View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler"; // GestureHandlerRootView import
 import { icons } from "../../constants";
 
 const Stack = createNativeStackNavigator();
@@ -74,16 +75,16 @@ const TabsLayout = () => {
                 }}
             />
             <Tabs.Screen
-                name="profile"
+                name="faq"
                 options={{
-                    title: "Profile",
+                    title: "FAQ",
                     headerShown: false,
                     tabBarIcon: ({ color, focused }) => (
                         <TabIcon
-                            icon={icons.profile}
+                            icon={icons.faq}
                             color={color}
                             focused={focused}
-                            name="Profile"
+                            name="FAQ"
                         />
                     ),
                 }}
@@ -94,24 +95,26 @@ const TabsLayout = () => {
 
 const RootLayout = () => {
     return (
-        <Stack.Navigator>
-            {/* Tabs Navigator */}
-            <Stack.Screen
-                name="(tabs)"
-                component={TabsLayout}
-                options={{ headerShown: false }}
-            />
-            {/* Details ekranı */}
-            <Stack.Screen
-                name="details"
-                getComponent={() => require("../details").default} // Lazy loading
-                options={{
-                    title: "Grad-CAM Result",
-                    headerShown: false, // Gerekirse başlık ekleyebilirsin
-                    presentation: "modal",
-                }}
-            />
-        </Stack.Navigator>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <Stack.Navigator>
+                {/* Tabs Navigator */}
+                <Stack.Screen
+                    name="(tabs)"
+                    component={TabsLayout}
+                    options={{ headerShown: false }}
+                />
+                {/* Details ekranı */}
+                <Stack.Screen
+                    name="details"
+                    getComponent={() => require("../details").default} // Lazy loading
+                    options={{
+                        title: "Grad-CAM Result",
+                        headerShown: false, // Gerekirse başlık ekleyebilirsin
+                        presentation: "modal",
+                    }}
+                />
+            </Stack.Navigator>
+        </GestureHandlerRootView>
     );
 };
 

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, Text, StatusBar, ActivityIndicator, Image, Alert } from "react-native";
 import { images } from "../constants";
-import { router } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp } from "../lib/requests";
 
 const App = () => {

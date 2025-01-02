@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../components/CustomButton";
 import * as ImagePicker from "expo-image-picker";
 import {uploadPhotoToS3} from "../../lib/requests";
+import React from "react";
 
 const Scan = () => {
 
@@ -53,13 +54,13 @@ const Scan = () => {
   return (
       <SafeAreaView className="bg-white flex-1 px-6">
         {/* Header */}
-        <View className="items-center mt-6 mb-8">
-          <Text className="text-xl font-mbold text-black">MelaScan Logo</Text>
+        <View className=" mt-6 mb-12">
+          <Text className="text-2xl font-mextrabold text-black">MelaScan</Text>
         </View>
 
         {/* Title and Description */}
         <View className="mb-12">
-          <Text className="text-2xl font-msemibold text-black text-center mb-2">
+          <Text className="text-2xl font-msemibold text-black text-center mb-3">
             Take a photo of your mole
           </Text>
           <Text className="text-m font-mregular text-gray-600 text-center">
